@@ -1,0 +1,8 @@
+# UE4 Project directories to ignore
+/.vs/
+/Binaries/
+/Build/
+/Intermediate/
+/Saved/
+/DerivedDataCache/
+*.sdf
