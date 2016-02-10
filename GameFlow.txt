@@ -1,0 +1,41 @@
+Kevin L.
+camera 
+top down - done
+camera zoom on object
+camera fixed on gym/playing field
+tasks
+bring in playing field asset
+make camera position centre of said field
+place object, zoom in and centre on said object then zoom out
+
+
+Kevin M., Ben
+1 controllable character
+can move around in space
+aim/shoot ball
+working with blue character, figure out controls
+make look at/aiming easy to use
+fire a projectile in look at direction with user input(space bar)
+look into controller support
+
+Luc Ko
+ball detection
+set up another asset/object
+detect hit
+tasks 
+bring in a projectile
+with mouse or keyboard fire projectile
+detect colision and do something with feedback(print on screen, make a sound etc)
+
+Zach, Corey
+ai - set up an object that moves around on it's own aka moving target
+tasks
+bring in an asset, make it move around on its own
+put limits so it doesn't cross imaginary half court line
+
+Parth
+sounds/ throw/hit etc. refer to wiki
+
+later...
+hud/ represents hit players etc refer to wiki
+
