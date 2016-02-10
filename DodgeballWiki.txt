@@ -1,0 +1,49 @@
+Components that may be needed for a game:
+
+Assets: 
+Ball, Character, Floor, Walls, Obstacles(Crate, Pitfall, Fire)
+
+Mechanics: 
+Ball[Throwing, Catching, Hitting, Passing] 
+Character[Switching Control, Moving, Throwing, Catching] 
+AI[Opponent's team, Player's team(units not being controlled)] 
+Powerups[Spawning, Pickups, Player/Character Effects]
+
+Effects: Ragdoll when hit
+
+Game Rules: 
+Player KO (1 hit or stamina) 
+Return conditions (Catch to recover a player/KO player hits someone to return) 
+Ball count (1 or 3 suggested) 
+Team Count (1vs1 or 3+ FFA) 
+Player Count (1 vs AI / No Player Limit(First Person)) 
+Camera (First Person/Third Person/Overhead)
+
+UI: 
+In Game[Timer, Points, Paused(Resume, Quit)] 
+Menu[Buttons(Start, Config, Help, Exit)]
+
+Input[Mouse/Keyboard or Controllers(should be a console game)]
+
+Audio: 
+BGM[Menu Theme, Gameplay Theme, Victory/Loss Theme] 
+SFX[Button Click, Hit, Throw, walking/running]
+
+Levels: 
+Main Menu 
+Game Screen [Arena layout/variations] 
+Game Over Screen 
+Stats screen(High scores/etc, pulled from data file or network)
+
+Program flow: Main Menu -> Play -> Game Screen -> Team KO -> Game Over Screen -> Return -> Main Menu 
+________________________ 
+Starting point appears to be the unreal top down C++ project.
+
+Tasks Selected: 
+Gerrard Haggett [ Character ] 
+Parth Deepak Kakkad [ Sound ] 
+Kevin Li [ Camera ] 
+Zachary Macleod [ AI ] 
+Kevin Miasik [ Character ] 
+Corey Tibando [ AI ] 
+Luc Vo [ Ball Collision ]
