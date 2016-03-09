@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "Adder_DodgeBallCharacter.h"
+#include "MyBallClass.h"
+#include "Engine.h"
 #include "GameFramework/Actor.h"
 #include "PowerUpPickUp.generated.h"
 
@@ -20,6 +22,21 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	
+	UPROPERTY(VisibleAnywhere, category = spawn)
+		TSubclassOf<class AAdder_DodgeBallCharacter> player;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
+		TEnumAsByte<PowerUp::PowerUpType> currentPowerup;
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		USphereComponent* Collider;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UStaticMeshComponent* Mesh;
+
+protected:
+	UFUNCTION()
+		virtual void OnBeginOverlap(AActor* OtherActor);
 	
 };
