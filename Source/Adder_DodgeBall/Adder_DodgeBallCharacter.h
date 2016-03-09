@@ -1,6 +1,7 @@
 // Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 #pragma once
 #include "GameFramework/Character.h"
+#include "MyBallClass.h"
 #include "Adder_DodgeBallCharacter.generated.h"
 
 UCLASS(Blueprintable)
@@ -19,6 +20,10 @@ class AAdder_DodgeBallCharacter : public ACharacter
 
 public:
 	AAdder_DodgeBallCharacter();
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
+		TEnumAsByte<PowerUp::PowerUpType> currentPowerup;
 
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }

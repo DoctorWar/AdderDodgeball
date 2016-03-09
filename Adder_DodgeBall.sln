@@ -11,6 +11,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UE4", "Intermediate\Project
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Adder_DodgeBall", "Intermediate\ProjectFiles\Adder_DodgeBall.vcxproj", "{04054271-103F-4AD2-AC30-F31FE1C89BF4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine (2)", "Engine (2)", "{C418F4FA-FB41-437D-A170-7FC21EDBB403}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games (2)", "Games (2)", "{C859A2FE-8402-405D-95F5-3F21157A2D8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		DebugGame Editor|Win32 = DebugGame Editor|Win32
