@@ -2,7 +2,7 @@
 
 #include "Adder_DodgeBall.h"
 #include "AI_Character.h"
-
+#include "EngineUtils.h"
 
 // Sets default values
 AAI_Character::AAI_Character()
@@ -58,6 +58,19 @@ void AAI_Character::Tick( float DeltaTime )
 	if (FMath::Abs(FVector::Dist(targetPoint, GetTransform().GetLocation())) > 32) {
 		GetMovementComponent()->AddInputVector(targetPoint - GetTransform().GetLocation(), false);
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Iterating"));
+	for (TActorIterator<AActor> Tai(GetWorld()); Tai; ++Tai) {
+
+		if (Tai->ActorHasTag("Ball")) {
+			FVector BallPoint = Tai->GetActorLocation();
+			if (BallPoint.X < boundsPoint.X + boundsVector.X && BallPoint.X > boundsPoint.X - boundsVector.X
+				&&BallPoint.Y < boundsPoint.Y + boundsVector.Y && BallPoint.Y > boundsPoint.Y - boundsVector.Y) {
+				targetPoint = BallPoint;
+			}
+		}
+	}
+
 }
 
 // Called to bind functionality to input
