@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "Ad_CharacterAIComponent.h"
 #include "AI_Character.generated.h"
 
 UCLASS()
@@ -21,8 +22,13 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+	//virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+protected:
+	/** AI Component used for AI characters, turns off if player controlled */
+	UPROPERTY(VisibleAnywhere, Category = AI)
+	class UAd_CharacterAIComponent* AIComponent;
+/*
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 	FVector targetPoint;
@@ -41,5 +47,5 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		FVector boundsVector;
 	
-	
+	*/
 };

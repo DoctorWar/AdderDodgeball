@@ -2,6 +2,7 @@
 #pragma once
 #include "GameFramework/Character.h"
 #include "MyBallClass.h"
+#include "Ad_CharacterAIComponent.h"
 #include "Adder_DodgeBallCharacter.generated.h"
 
 UCLASS(Blueprintable)
@@ -17,13 +18,27 @@ class AAdder_DodgeBallCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
+protected:
+	/** AI Component used for AI characters, turns off if player controlled */
+	UPROPERTY(VisibleAnywhere, Category = AI)
+	class UAd_CharacterAIComponent* AIComponent;
+
 
 public:
 	AAdder_DodgeBallCharacter();
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
 		TEnumAsByte<PowerUp::PowerUpType> currentPowerup;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		bool isAI;
+	//set this to true when hit by the ball
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		bool isAlive;
+	//used to check how long since a character was hit, add deltatime when dead
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		float downTime;
+
 
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }

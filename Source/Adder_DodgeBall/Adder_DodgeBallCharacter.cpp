@@ -1,7 +1,6 @@
 // Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 
 #include "Adder_DodgeBall.h"
-
 #include "Adder_DodgeBallCharacter.h"
 
 AAdder_DodgeBallCharacter::AAdder_DodgeBallCharacter()
@@ -20,6 +19,9 @@ AAdder_DodgeBallCharacter::AAdder_DodgeBallCharacter()
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
 
+	// Attach AI script...
+	AIComponent = CreateDefaultSubobject<UAd_CharacterAIComponent>(TEXT("AIScript"));
+
 	// Create a camera boom...
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->AttachTo(RootComponent);
@@ -33,4 +35,7 @@ AAdder_DodgeBallCharacter::AAdder_DodgeBallCharacter()
 	TopDownCameraComponent->AttachTo(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	isAI = false;
+	isAlive = true;
+	downTime = 0.0f;
 }
