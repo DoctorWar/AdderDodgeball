@@ -16,8 +16,8 @@ UAd_CharacterAIComponent::UAd_CharacterAIComponent()
 	// ...
 	//Set defaults for AI variables
 	targetPoint = FVector::ZeroVector;
-	AITimer = 10;
-	AITimeStep = 1.25;
+	AITimer = 0.5;
+	AITimeStep = 0.75;
 	targetRegion = nullptr;
 	boundsPoint = FVector(0, 0, 0);
 	boundsVector = FVector(640, 640, 480);
