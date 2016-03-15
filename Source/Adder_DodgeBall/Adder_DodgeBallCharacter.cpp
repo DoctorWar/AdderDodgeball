@@ -22,20 +22,36 @@ AAdder_DodgeBallCharacter::AAdder_DodgeBallCharacter()
 	// Attach AI script...
 	AIComponent = CreateDefaultSubobject<UAd_CharacterAIComponent>(TEXT("AIScript"));
 
-	// Create a camera boom...
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->AttachTo(RootComponent);
-	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
-	CameraBoom->TargetArmLength = 800.f;
-	CameraBoom->RelativeRotation = FRotator(-60.f, 0.f, 0.f);
-	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
+	////// Create a camera boom...
+	//CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	//CameraBoom->AttachTo(RootComponent);
+	//CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
+	//CameraBoom->TargetArmLength = 100.f;
+	//CameraBoom->RelativeRotation = FRotator(0.f, 0.f, 0.f);
+	//CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
-	// Create a camera...
-	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
-	TopDownCameraComponent->AttachTo(CameraBoom, USpringArmComponent::SocketName);
-	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	////// Create a camera...
+	//TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
+	//TopDownCameraComponent->AttachTo(CameraBoom, USpringArmComponent::SocketName);
+	//TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	isAI = false;
 	isAlive = true;
 	downTime = 0.0f;
+}
+
+
+void AAdder_DodgeBallCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	UE_LOG(LogTemp, Error, TEXT("BeginPlay"));
+	for (TActorIterator<ACamera> Tai(GetWorld()); Tai; ++Tai)
+	{
+		if (Tai->ActorHasTag("StaticCamera"))
+		{
+			UE_LOG(LogTemp, Error, TEXT("CAMERA IS FOUND"));
+			StaticCamera = Cast<ACamera>(*Tai);
+		}
+	}
+
 }

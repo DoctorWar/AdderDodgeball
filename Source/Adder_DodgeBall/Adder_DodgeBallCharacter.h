@@ -3,6 +3,7 @@
 #include "GameFramework/Character.h"
 #include "MyBallClass.h"
 #include "Ad_CharacterAIComponent.h"
+#include "Camera.h"
 #include "Adder_DodgeBallCharacter.generated.h"
 
 UCLASS(Blueprintable)
@@ -26,6 +27,11 @@ protected:
 
 public:
 	AAdder_DodgeBallCharacter();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CAMERASTUFF)
+		ACamera* StaticCamera;
+
+	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
 		TEnumAsByte<PowerUp::PowerUpType> currentPowerup;
