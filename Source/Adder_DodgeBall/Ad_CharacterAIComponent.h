@@ -22,6 +22,10 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
+public: //functions
+	UFUNCTION()
+		virtual bool IsClosestToTarget(AActor* inTarget);
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		FVector targetPoint;

@@ -2,6 +2,7 @@
 
 #include "Adder_DodgeBall.h"
 #include "Adder_DodgeBallCharacter.h"
+#include "Engine.h" 
 #include "Ad_CharacterAIComponent.h"
 
 
@@ -70,20 +71,22 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 		//UE_LOG(LogTemp, Warning, TEXT("Iterating"));
 		for (TActorIterator<AActor> Tai(GetWorld()); Tai; ++Tai) {
 			if (Tai->ActorHasTag("Ball")) {
-				//chase the ball if it's on AI side of the court
-				FVector BallPoint = Tai->GetActorLocation();
-				if (BallPoint.X < boundsPoint.X + boundsVector.X && BallPoint.X > boundsPoint.X - boundsVector.X
-					&&BallPoint.Y < boundsPoint.Y + boundsVector.Y && BallPoint.Y > boundsPoint.Y - boundsVector.Y) {
-					targetPoint = BallPoint;
-				}
-				//run from the ball if it's flying
-				FVector BallVelocity = Tai->GetVelocity();
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("BallVector: %f"), BallVelocity.Size()));
-				if (BallVelocity.Size() > 80.0f) {
-					FVector UserPoint = OwningPawn->GetTransform().GetLocation();
-					FVector MovePoint = (OwningPawn->GetTransform().GetLocation() - BallPoint);
-					MovePoint.Normalize();
-					targetPoint = UserPoint + (MovePoint * 180);
+				if(IsClosestToTarget(*Tai)){
+					//chase the ball if it's on AI side of the court
+					FVector BallPoint = Tai->GetActorLocation();
+					if (BallPoint.X < boundsPoint.X + boundsVector.X && BallPoint.X > boundsPoint.X - boundsVector.X
+						&&BallPoint.Y < boundsPoint.Y + boundsVector.Y && BallPoint.Y > boundsPoint.Y - boundsVector.Y) {
+						targetPoint = BallPoint;
+					}
+					//run from the ball if it's flying
+					FVector BallVelocity = Tai->GetVelocity();
+					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("BallVector: %f"), BallVelocity.Size()));
+					if (BallVelocity.Size() > 80.0f) {
+						FVector UserPoint = OwningPawn->GetTransform().GetLocation();
+						FVector MovePoint = (OwningPawn->GetTransform().GetLocation() - BallPoint);
+						MovePoint.Normalize();
+						targetPoint = UserPoint + (MovePoint * 180);
+					}
 				}
 			}
 		}
@@ -92,7 +95,7 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 		if (targetPoint.X < boundsPoint.X - boundsVector.X) targetPoint.X += 255;// = boundsPoint.X - boundsVector.X;
 		if (targetPoint.Y > boundsPoint.Y + boundsVector.Y) targetPoint.Y -= 255;// = boundsPoint.Y + boundsVector.Y;
 		if (targetPoint.Y < boundsPoint.Y - boundsVector.Y) targetPoint.Y += 255;// = boundsPoint.Y - boundsVector.Y;
-		AITimer = AITimer + AITimeStep;
+		AITimer = AITimer + AITimeStep + (rand() % 100) / 250.0f;
 	}
 
 	if (FMath::Abs(FVector::Dist(targetPoint, OwningPawn->GetTransform().GetLocation())) > 32) {
@@ -101,3 +104,23 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 	}
 }
 
+bool UAd_CharacterAIComponent::IsClosestToTarget(AActor * inTarget)
+{
+	FVector targetPos = inTarget->GetActorLocation();
+	float actorDist = FVector::Dist(GetOwner()->GetActorLocation(), targetPos);
+	//iterate through all actors and find teammates... this shouldn't really be done so frequently
+	for (TActorIterator<AAdder_DodgeBallCharacter> Cai(GetWorld()); Cai; ++Cai) {
+		if (*Cai == GetOwner()) {
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Found self: %f"), FVector::Dist(GetOwner()->GetActorLocation(), targetPos)));
+			continue;
+		}
+		if (Cai->isAI) {
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Char Dist: %f"), FVector::Dist(GetOwner()->GetActorLocation(), targetPos)));
+			if (FVector::Dist(Cai->GetActorLocation(), targetPos) < actorDist) {
+				
+				return false;
+			}
+		}
+	}
+	return true;
+}
