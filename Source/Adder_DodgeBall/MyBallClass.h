@@ -35,9 +35,17 @@ public:
 		void SetPowerUp(PowerUp::PowerUpType powerUp);
 	UFUNCTION(BlueprintCallable, Category = "powerUP")
 		void ResetStats();
+	
+
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
 		float Strength;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
 		float Pricision;
 
+	//By AI developers below
+	UFUNCTION(BlueprintImplementableEvent, Category = "AI")
+		void LaunchBall();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		AActor* OwningActor;
 };

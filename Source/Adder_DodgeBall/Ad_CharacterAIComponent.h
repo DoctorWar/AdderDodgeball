@@ -26,6 +26,9 @@ public: //functions
 	UFUNCTION()
 		virtual bool IsClosestToTarget(AActor* inTarget);
 
+	UFUNCTION()
+		virtual AActor* GetClosestTarget();
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		FVector targetPoint;
@@ -38,6 +41,9 @@ public:
 	//Could be a navmesh or just an empty cube object
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		AActor* targetRegion;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		AActor* targetActor;
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		FVector boundsPoint;
@@ -51,4 +57,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		bool isAI;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		bool hasBall;
 };

@@ -45,6 +45,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		float downTime;
 
+	//give a reference to the ball last controlled
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		AMyBallClass* ballRef;
+	//pass isThrowing to the anim. component to show throw animation
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		bool isThrowing;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		float throwPower;
+
+	UFUNCTION(BlueprintCallable, Category = AI)
+		virtual void WindUp();
+	UFUNCTION(BlueprintCallable, Category = AI)
+		virtual void ThrowBall();
 
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }

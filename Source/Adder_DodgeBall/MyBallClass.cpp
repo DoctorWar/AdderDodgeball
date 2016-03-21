@@ -28,11 +28,6 @@ void AMyBallClass::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 }
-void AMyBallClass::ResetStats()
-{
-	Strength = 1;
-	Pricision = 5;
-}
 void AMyBallClass::SetPowerUp(PowerUp::PowerUpType thisPowerUp)
 {
 	currentPowerup = thisPowerUp;
@@ -47,4 +42,12 @@ void AMyBallClass::SetPowerUp(PowerUp::PowerUpType thisPowerUp)
 		break;
 	}
 }
+void AMyBallClass::ResetStats()
+{
+	Strength = 1;
+	Pricision = 5;
+}
+//BP events don't have C++ code it seems
+//void AMyBallClass::LaunchBall(){}
+
 

@@ -1,6 +1,7 @@
 // Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 
 #include "Adder_DodgeBall.h"
+#include "Engine.h" 
 #include "Adder_DodgeBallCharacter.h"
 
 AAdder_DodgeBallCharacter::AAdder_DodgeBallCharacter()
@@ -38,6 +39,7 @@ AAdder_DodgeBallCharacter::AAdder_DodgeBallCharacter()
 	isAI = false;
 	isAlive = true;
 	downTime = 0.0f;
+	ballRef = nullptr;
 }
 
 
@@ -54,4 +56,23 @@ void AAdder_DodgeBallCharacter::BeginPlay()
 		}
 	}
 
+}
+
+void AAdder_DodgeBallCharacter::WindUp()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("windUp")));
+	isThrowing = true;
+	if(throwPower >= 1.0f) throwPower = 1.0f;
+		else throwPower += 0.16f;
+}
+
+void AAdder_DodgeBallCharacter::ThrowBall()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("throw")));
+	isThrowing = false;
+	if (ballRef != nullptr) {
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("launch")));
+		ballRef->OwningActor = this;
+		ballRef->LaunchBall();
+	} else GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("nullBall")));
 }
