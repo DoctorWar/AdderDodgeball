@@ -98,8 +98,9 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 						}
 						//run from the ball if it's flying
 						FVector BallVelocity = Tai->GetVelocity();
+						bool IsDeadly = Cast<AMyBallClass>(*Tai)->GetIsDeadly();
 						//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("BallVector: %f"), BallVelocity.Size()));
-						if (BallVelocity.Size() > 120.0f) {
+						if (BallVelocity.Size() > 120.0f && IsDeadly) {
 							FVector UserPoint = OwningPawn->GetTransform().GetLocation();
 							FVector MovePoint = (OwningPawn->GetTransform().GetLocation() - BallPoint);
 							MovePoint.Normalize();

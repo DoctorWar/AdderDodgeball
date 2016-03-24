@@ -42,10 +42,14 @@ public:
 		float Strength;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
 		float Pricision;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
+		bool deadly;
 
 	//By AI developers below
 	UFUNCTION(BlueprintImplementableEvent, Category = "AI")
 		void LaunchBall();
+	UFUNCTION()
+		bool GetIsDeadly();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		AActor* OwningActor;
 };

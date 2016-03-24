@@ -47,6 +47,11 @@ void AMyBallClass::ResetStats()
 	Strength = 1;
 	Pricision = 5;
 }
+
+bool AMyBallClass::GetIsDeadly() {
+	return deadly;
+}
+
 //BP events don't have C++ code it seems
 //void AMyBallClass::LaunchBall(){}
 
