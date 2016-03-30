@@ -25,7 +25,7 @@ public:
 	UPROPERTY(VisibleAnywhere, category = spawn)
 		TSubclassOf<class AAdder_DodgeBallCharacter> player;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp, Meta = (DisplayName = "powerupEnum", ExposeOnSpawn = true))
 		TEnumAsByte<PowerUp::PowerUpType> currentPowerup;
 
 protected:
