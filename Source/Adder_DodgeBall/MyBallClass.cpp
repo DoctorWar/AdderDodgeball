@@ -45,7 +45,7 @@ void AMyBallClass::SetPowerUp(PowerUp::PowerUpType thisPowerUp)
 void AMyBallClass::ResetStats()
 {
 	Strength = 1;
-	Pricision = 5;
+	Pricision = 0;
 }
 
 bool AMyBallClass::GetIsDeadly() {
