@@ -37,6 +37,7 @@ AAdder_DodgeBallCharacter::AAdder_DodgeBallCharacter()
 	//TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	isAI = false;
+	teamNumber = -1;
 	isAlive = true;
 	downTime = 0.0f;
 	ballRef = nullptr;

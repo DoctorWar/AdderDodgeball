@@ -38,6 +38,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		bool isAI;
+	//isAI sets automatically, teamNumber must be set in the editor
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		int32 teamNumber;
+
 	//set this to true when hit by the ball
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		bool isAlive;

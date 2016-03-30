@@ -132,6 +132,7 @@ bool UAd_CharacterAIComponent::IsClosestToTarget(AActor * inTarget)
 {
 	FVector targetPos = inTarget->GetActorLocation();
 	float actorDist = FVector::Dist(GetOwner()->GetActorLocation(), targetPos);
+	int teamNumber = Cast<AAdder_DodgeBallCharacter>(OwningPawn)->teamNumber;
 	//iterate through all actors and find teammates... this shouldn't really be done so frequently
 	for (TActorIterator<AAdder_DodgeBallCharacter> Cai(GetWorld()); Cai; ++Cai) {
 		if (*Cai == GetOwner()) {
@@ -139,7 +140,7 @@ bool UAd_CharacterAIComponent::IsClosestToTarget(AActor * inTarget)
 			continue;
 		}
 		if (!Cai->isAlive) continue;
-		if (Cai->isAI) {
+		if (Cai->isAI && Cai->teamNumber == teamNumber) {
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Char Dist: %f"), FVector::Dist(GetOwner()->GetActorLocation(), targetPos)));
 			if (FVector::Dist(Cai->GetActorLocation(), targetPos) < actorDist) {
 				return false;
@@ -154,6 +155,7 @@ AActor * UAd_CharacterAIComponent::GetClosestTarget()
 	AActor* targeted = nullptr;
 	FVector thisPos = GetOwner()->GetActorLocation();
 	float actorDist = 32767.0f;// FVector::Dist(GetOwner()->GetActorLocation(), targetPos);
+	int teamNumber = Cast<AAdder_DodgeBallCharacter>(OwningPawn)->teamNumber;
 	//iterate through all actors and find teammates... this shouldn't really be done so frequently
 	for (TActorIterator<AAdder_DodgeBallCharacter> Cai(GetWorld()); Cai; ++Cai) {
 		if (*Cai == GetOwner()) {
@@ -161,7 +163,8 @@ AActor * UAd_CharacterAIComponent::GetClosestTarget()
 			continue;
 		}
 		if (!Cai->isAlive) continue;
-		if (!Cai->isAI) {
+		//(Cai->teamNumber == -1 && !Cai->isAI) is a fallback in case team numbers aren't set, will target player only
+		if (Cai->teamNumber != teamNumber || (Cai->teamNumber == -1 && !Cai->isAI)) {
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("AI Tgt Dist: %f"), FVector::Dist(Cai->GetActorLocation(), thisPos)));
 			if (FVector::Dist(Cai->GetActorLocation(), thisPos) < actorDist) {
 				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("AI Tgt Dist: %f"), FVector::Dist(Cai->GetActorLocation(), thisPos)));
