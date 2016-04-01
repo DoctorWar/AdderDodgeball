@@ -10,7 +10,9 @@ namespace PowerUp
 	{
 		none UMETA(DisplayName = "none"),
 		strength UMETA(DisplayName = "strength"),
-		precision UMETA(DisplayName = "precision")
+		precision UMETA(DisplayName = "precision"),
+		homing UMETA(DisplayName = "homing")
+
 	};
 }
 UCLASS()
@@ -27,23 +29,29 @@ public:
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
+		int32 teamNumber;
 
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
 		TEnumAsByte<PowerUp::PowerUpType> currentPowerup;
 	UFUNCTION(BlueprintCallable, Category = "powerUP")
 		void SetPowerUp(PowerUp::PowerUpType powerUp);
 	UFUNCTION(BlueprintCallable, Category = "powerUP")
 		void ResetStats();
-	
-
+	UFUNCTION(BlueprintCallable, Category = "powerUP")
+		void homingBallfunc();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
 		float Strength;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
 		float Pricision;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
+		float homingDuration;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
+		bool homing;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = powerUp)
 		bool deadly;
+
 
 	//By AI developers below
 	UFUNCTION(BlueprintImplementableEvent, Category = "AI")
@@ -52,4 +60,6 @@ public:
 		bool GetIsDeadly();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		AActor* OwningActor;
+
+	
 };

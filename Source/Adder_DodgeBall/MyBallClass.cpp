@@ -2,6 +2,8 @@
 
 #include "Adder_DodgeBall.h"
 #include "MyBallClass.h"
+#include "EngineUtils.h"
+#include "Adder_DodgeBallCharacter.h"
 
 
 // Sets default values
@@ -26,8 +28,40 @@ void AMyBallClass::BeginPlay()
 void AMyBallClass::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+	if (homing)
+	{
+		homingBallfunc();
+		homingDuration += DeltaTime;
+	}
 
 }
+
+void AMyBallClass::homingBallfunc()
+{
+	AAdder_DodgeBallCharacter* currentTarget;
+	FVector currentLocation = FVector(this->GetActorLocation().X, this->GetActorLocation().Y, this->GetActorLocation().Z);
+	FVector direction(0, 0, 0);
+	float distance = 5000;
+	for (TActorIterator <AAdder_DodgeBallCharacter> itr(GetWorld()); itr; ++itr)
+	{
+		if ((itr->GetActorLocation() - this->GetActorLocation()).Size() < distance)
+		{
+			if (teamNumber != itr->teamNumber)
+			{
+				currentTarget = *itr;
+				direction = (currentTarget->GetActorLocation() - this->GetActorLocation()).GetSafeNormal();
+			}
+		}
+	}
+	
+	this->SetActorLocation(currentLocation + (direction * 15), false, NULL, ETeleportType::TeleportPhysics);
+	if (homingDuration > 1000)
+		ResetStats();
+}
+
+
+
+
 void AMyBallClass::SetPowerUp(PowerUp::PowerUpType thisPowerUp)
 {
 	currentPowerup = thisPowerUp;
@@ -40,12 +74,17 @@ void AMyBallClass::SetPowerUp(PowerUp::PowerUpType thisPowerUp)
 	case PowerUp::PowerUpType::precision:
 		Pricision = 0;
 		break;
+	case PowerUp::PowerUpType::homing:
+		homing = true;
+		homingDuration = 0;
 	}
 }
 void AMyBallClass::ResetStats()
 {
 	Strength = 1;
-	Pricision = 0;
+	Pricision = 5;
+	homing = false;
+	homingDuration = 0;
 }
 
 bool AMyBallClass::GetIsDeadly() {
