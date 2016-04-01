@@ -8,6 +8,7 @@ AAdder_DodgeBallPlayerController::AAdder_DodgeBallPlayerController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
+	bAutoManageActiveCameraTarget = false;
 }
 
 void AAdder_DodgeBallPlayerController::PlayerTick(float DeltaTime)

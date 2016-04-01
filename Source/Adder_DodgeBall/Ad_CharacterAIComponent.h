@@ -55,8 +55,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AI)
 		APawn* PlayersPawn;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
-		bool isAI;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+	//	bool isAI;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 		bool hasBall;

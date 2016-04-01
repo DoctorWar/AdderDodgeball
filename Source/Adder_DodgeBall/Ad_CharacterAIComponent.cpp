@@ -25,7 +25,9 @@ UAd_CharacterAIComponent::UAd_CharacterAIComponent()
 	boundsVector = FVector(640, 640, 480);
 
 	OwningPawn = Cast<APawn>(GetOwner());
-	isAI = false;
+	//isAI = false;
+	if (Cast<AAdder_DodgeBallCharacter>(OwningPawn))
+		Cast<AAdder_DodgeBallCharacter>(OwningPawn)->isAI = false;
 	targetActor = nullptr;
 }
 
@@ -50,10 +52,12 @@ void UAd_CharacterAIComponent::BeginPlay()
 	//turn off AI component's tick function if the player controls this one
 	if (OwningPawn == PlayersPawn) {// UGameplayStatics::GetPlayerPawn(GetWorld(), 0)) {
 		PrimaryComponentTick.bCanEverTick = false;
-		isAI = false;
+		//isAI = false;
+		if (Cast<AAdder_DodgeBallCharacter>(OwningPawn))
+			Cast<AAdder_DodgeBallCharacter>(OwningPawn)->isAI = false;
 	} else {
 		PrimaryComponentTick.bCanEverTick = true;
-		isAI = true;
+		//isAI = true;
 		if (Cast<AAdder_DodgeBallCharacter>(OwningPawn))
 			Cast<AAdder_DodgeBallCharacter>(OwningPawn)->isAI = true;
 	}
@@ -64,7 +68,8 @@ void UAd_CharacterAIComponent::BeginPlay()
 void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-	if (!isAI) return;// OwningPawn == PlayersPawn) return;
+	//if (!isAI) return;// OwningPawn == PlayersPawn) return;
+	if (!Cast<AAdder_DodgeBallCharacter>(OwningPawn)->isAI) return;
 	// ...
 	AITimer = AITimer - DeltaTime;
 
