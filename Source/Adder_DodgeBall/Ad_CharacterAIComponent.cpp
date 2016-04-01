@@ -3,6 +3,7 @@
 #include "Adder_DodgeBall.h"
 #include "Adder_DodgeBallCharacter.h"
 #include "Engine.h" 
+#include "PowerUpPickUp.h"
 #include "Ad_CharacterAIComponent.h"
 
 
@@ -70,41 +71,57 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 	if (AITimer < 0) {
 		targetPoint += FVector(rand() % 511 - 255, rand() % 511 - 255, 0);
 		//UE_LOG(LogTemp, Warning, TEXT("Iterating"));
-		for (TActorIterator<AMyBallClass> Tai(GetWorld()); Tai; ++Tai) {
-			if (Tai->ActorHasTag("Ball")) {
-				if (Tai->GetAttachParentActor() == GetOwner()){// || Tai->OwningActor == GetOwner()) {
-					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("BallOwner")));
-					targetActor = GetClosestTarget();
-					if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)) {
-						//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("hasBall")));
-						hasBall = true;
-						Cast<AAdder_DodgeBallCharacter>(OwningPawn)->ballRef = *Tai;
-						if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)->throwPower > 0.75f) {
-							Cast<AAdder_DodgeBallCharacter>(OwningPawn)->ThrowBall();
-							hasBall = false;
+		bool gettingPowerUp = false;
+		for (TActorIterator<APowerUpPickUp> Tai(GetWorld()); Tai; ++Tai) {
+			if (IsClosestToTarget(*Tai)) {
+				FVector PUpPoint = Tai->GetActorLocation();
+				if (PUpPoint.X < boundsPoint.X + boundsVector.X && PUpPoint.X > boundsPoint.X - boundsVector.X
+					&&PUpPoint.Y < boundsPoint.Y + boundsVector.Y && PUpPoint.Y > boundsPoint.Y - boundsVector.Y) {
+					targetPoint = PUpPoint;
+					gettingPowerUp = true;
+				}
+			}
+		}
+
+		if (!gettingPowerUp) {
+			for (TActorIterator<AMyBallClass> Tai(GetWorld()); Tai; ++Tai) {
+				if (Tai->ActorHasTag("Ball")) {
+					if (Tai->GetAttachParentActor() == GetOwner()) {// || Tai->OwningActor == GetOwner()) {
+						//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("BallOwner")));
+						targetActor = GetClosestTarget();
+						if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)) {
+							//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("hasBall")));
+							hasBall = true;
+							Cast<AAdder_DodgeBallCharacter>(OwningPawn)->ballRef = *Tai;
+							if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)->throwPower > 0.75f) {
+								Cast<AAdder_DodgeBallCharacter>(OwningPawn)->ThrowBall();
+								hasBall = false;
+							}
 						}
+						if (targetActor != nullptr) {
+							targetPoint = targetActor->GetActorLocation();
+						}
+						else GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("nullTarget")));
 					}
-					if (targetActor != nullptr) {
-						targetPoint = targetActor->GetActorLocation();
-					} else GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("nullTarget")));
-				} else {
-					targetActor = nullptr;
-					if (IsClosestToTarget(*Tai)) {
-						//chase the ball if it's on AI side of the court
-						FVector BallPoint = Tai->GetActorLocation();
-						if (BallPoint.X < boundsPoint.X + boundsVector.X && BallPoint.X > boundsPoint.X - boundsVector.X
-							&&BallPoint.Y < boundsPoint.Y + boundsVector.Y && BallPoint.Y > boundsPoint.Y - boundsVector.Y) {
-							targetPoint = BallPoint;
-						}
-						//run from the ball if it's flying
-						FVector BallVelocity = Tai->GetVelocity();
-						bool IsDeadly = Cast<AMyBallClass>(*Tai)->GetIsDeadly();
-						//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("BallVector: %f"), BallVelocity.Size()));
-						if (BallVelocity.Size() > 120.0f && IsDeadly) {
-							FVector UserPoint = OwningPawn->GetTransform().GetLocation();
-							FVector MovePoint = (OwningPawn->GetTransform().GetLocation() - BallPoint);
-							MovePoint.Normalize();
-							targetPoint = UserPoint + (MovePoint * 180);
+					else {
+						targetActor = nullptr;
+						if (IsClosestToTarget(*Tai)) {
+							//chase the ball if it's on AI side of the court
+							FVector BallPoint = Tai->GetActorLocation();
+							if (BallPoint.X < boundsPoint.X + boundsVector.X && BallPoint.X > boundsPoint.X - boundsVector.X
+								&&BallPoint.Y < boundsPoint.Y + boundsVector.Y && BallPoint.Y > boundsPoint.Y - boundsVector.Y) {
+								targetPoint = BallPoint;
+							}
+							//run from the ball if it's flying
+							FVector BallVelocity = Tai->GetVelocity();
+							bool IsDeadly = Cast<AMyBallClass>(*Tai)->GetIsDeadly();
+							//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("BallVector: %f"), BallVelocity.Size()));
+							if (BallVelocity.Size() > 120.0f && IsDeadly) {
+								FVector UserPoint = OwningPawn->GetTransform().GetLocation();
+								FVector MovePoint = (OwningPawn->GetTransform().GetLocation() - BallPoint);
+								MovePoint.Normalize();
+								targetPoint = UserPoint + (MovePoint * 180);
+							}
 						}
 					}
 				}
