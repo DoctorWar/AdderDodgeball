@@ -77,13 +77,16 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 		targetPoint += FVector(rand() % 511 - 255, rand() % 511 - 255, 0);
 		//UE_LOG(LogTemp, Warning, TEXT("Iterating"));
 		bool gettingPowerUp = false;
-		for (TActorIterator<APowerUpPickUp> Tai(GetWorld()); Tai; ++Tai) {
-			if (IsClosestToTarget(*Tai)) {
-				FVector PUpPoint = Tai->GetActorLocation();
-				if (PUpPoint.X < boundsPoint.X + boundsVector.X && PUpPoint.X > boundsPoint.X - boundsVector.X
-					&&PUpPoint.Y < boundsPoint.Y + boundsVector.Y && PUpPoint.Y > boundsPoint.Y - boundsVector.Y) {
-					targetPoint = PUpPoint;
-					gettingPowerUp = true;
+		if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)->currentPowerup == PowerUp::PowerUpType::none)
+		{
+			for (TActorIterator<APowerUpPickUp> Tai(GetWorld()); Tai; ++Tai) {
+				if (IsClosestToTarget(*Tai)) {
+					FVector PUpPoint = Tai->GetActorLocation();
+					if (PUpPoint.X < boundsPoint.X + boundsVector.X && PUpPoint.X > boundsPoint.X - boundsVector.X
+						&&PUpPoint.Y < boundsPoint.Y + boundsVector.Y && PUpPoint.Y > boundsPoint.Y - boundsVector.Y) {
+						targetPoint = PUpPoint;
+						gettingPowerUp = true;
+					}
 				}
 			}
 		}
