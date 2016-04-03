@@ -51,7 +51,7 @@ void UAd_CharacterAIComponent::BeginPlay()
 
 	//turn off AI component's tick function if the player controls this one
 	if (OwningPawn == PlayersPawn) {// UGameplayStatics::GetPlayerPawn(GetWorld(), 0)) {
-		PrimaryComponentTick.bCanEverTick = false;
+		PrimaryComponentTick.bCanEverTick = true;// false;
 		//isAI = false;
 		if (Cast<AAdder_DodgeBallCharacter>(OwningPawn))
 			Cast<AAdder_DodgeBallCharacter>(OwningPawn)->isAI = false;
@@ -90,8 +90,9 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 				}
 			}
 		}
-
+		targetActor = nullptr;
 		if (!gettingPowerUp) {
+			FVector UserPoint = OwningPawn->GetTransform().GetLocation();
 			for (TActorIterator<AMyBallClass> Tai(GetWorld()); Tai; ++Tai) {
 				if (Tai->ActorHasTag("Ball")) {
 					if (Tai->GetAttachParentActor() == GetOwner()) {// || Tai->OwningActor == GetOwner()) {
@@ -108,24 +109,22 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 						}
 						if (targetActor != nullptr) {
 							targetPoint = targetActor->GetActorLocation();
-						}
-						else GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("nullTarget")));
-					}
-					else {
-						targetActor = nullptr;
+						} else GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("nullTarget")));
+					} else {
+						//targetActor = nullptr;
 						if (IsClosestToTarget(*Tai)) {
 							//chase the ball if it's on AI side of the court
 							FVector BallPoint = Tai->GetActorLocation();
 							if (BallPoint.X < boundsPoint.X + boundsVector.X && BallPoint.X > boundsPoint.X - boundsVector.X
 								&&BallPoint.Y < boundsPoint.Y + boundsVector.Y && BallPoint.Y > boundsPoint.Y - boundsVector.Y) {
-								targetPoint = BallPoint;
+								//targetPoint = BallPoint;
+								targetPoint = BallPoint + Tai->GetVelocity()* FVector::Dist(BallPoint, UserPoint) * 0.003f;
 							}
 							//run from the ball if it's flying
 							FVector BallVelocity = Tai->GetVelocity();
 							bool IsDeadly = Cast<AMyBallClass>(*Tai)->GetIsDeadly();
 							//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("BallVector: %f"), BallVelocity.Size()));
 							if (BallVelocity.Size() > 120.0f && IsDeadly) {
-								FVector UserPoint = OwningPawn->GetTransform().GetLocation();
 								FVector MovePoint = (OwningPawn->GetTransform().GetLocation() - BallPoint);
 								MovePoint.Normalize();
 								targetPoint = UserPoint + (MovePoint * 180);
@@ -135,17 +134,22 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 				}
 			}
 		}
-		targetPoint.Z = OwningPawn->GetTransform().GetLocation().Z;
 		if (targetPoint.X > boundsPoint.X + boundsVector.X) targetPoint.X -= 255;// = boundsPoint.X + boundsVector.X;
 		if (targetPoint.X < boundsPoint.X - boundsVector.X) targetPoint.X += 255;// = boundsPoint.X - boundsVector.X;
 		if (targetPoint.Y > boundsPoint.Y + boundsVector.Y) targetPoint.Y -= 255;// = boundsPoint.Y + boundsVector.Y;
 		if (targetPoint.Y < boundsPoint.Y - boundsVector.Y) targetPoint.Y += 255;// = boundsPoint.Y - boundsVector.Y;
+		if (hasBall == true && targetActor != nullptr) {
+			targetPoint = targetActor->GetActorLocation();
+		}
+		targetPoint.Z = OwningPawn->GetTransform().GetLocation().Z;
 		AITimer = AITimer + AITimeStep + (rand() % 100) / 250.0f;
 	}
 	if (hasBall) {
 		if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)) {
 			Cast<AAdder_DodgeBallCharacter>(OwningPawn)->WindUp();
 		}
+	} else if(targetActor != nullptr) {
+		
 	}
 	if (FMath::Abs(FVector::Dist(targetPoint, OwningPawn->GetTransform().GetLocation())) > 32) {
 		//OwningPawn->AddMovementInput(targetPoint - OwningPawn->GetTransform().GetLocation(), 1, false);
