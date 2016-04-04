@@ -72,9 +72,19 @@ void AAdder_DodgeBallCharacter::ThrowBall()
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("throw")));
 	isThrowing = false;
+	if (ballRef == nullptr) {
+		for (TActorIterator<AMyBallClass> Tai(GetWorld()); Tai; ++Tai) {
+			if (Tai->ActorHasTag("Ball")) {
+				if (Tai->GetAttachParentActor() == this) {
+					ballRef = *Tai;
+				}
+			}
+		}
+	}
 	if (ballRef != nullptr) {
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("launch")));
 		ballRef->OwningActor = this;
 		ballRef->LaunchBall();
+		ballRef = nullptr;
 	} else GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("nullBall")));
 }

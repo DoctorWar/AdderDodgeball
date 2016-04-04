@@ -72,8 +72,13 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 	if (!Cast<AAdder_DodgeBallCharacter>(OwningPawn)->isAI) return;
 	// ...
 	AITimer = AITimer - DeltaTime;
-
+	
 	if (AITimer < 0) {
+		if (!Cast<AAdder_DodgeBallCharacter>(OwningPawn)->isAlive && Cast<AAdder_DodgeBallCharacter>(OwningPawn)->hasBall) {
+			Cast<AAdder_DodgeBallCharacter>(OwningPawn)->ThrowBall();
+			Cast<AAdder_DodgeBallCharacter>(OwningPawn)->hasBall = false;
+			return;
+		}
 		targetPoint += FVector(rand() % 511 - 255, rand() % 511 - 255, 0);
 		//UE_LOG(LogTemp, Warning, TEXT("Iterating"));
 		bool gettingPowerUp = false;
@@ -91,10 +96,12 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 			}
 		}
 		targetActor = nullptr;
-		if (!gettingPowerUp) {
+		if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)->hasBall || !gettingPowerUp) {
+			
 			FVector UserPoint = OwningPawn->GetTransform().GetLocation();
 			for (TActorIterator<AMyBallClass> Tai(GetWorld()); Tai; ++Tai) {
-				if (Tai->ActorHasTag("Ball")) {
+				if (Tai->ActorHasTag("Ball"))
+				{
 					if (Tai->GetAttachParentActor() == GetOwner()) {// || Tai->OwningActor == GetOwner()) {
 						//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("BallOwner")));
 						targetActor = GetClosestTarget();
@@ -145,13 +152,20 @@ void UAd_CharacterAIComponent::TickComponent( float DeltaTime, ELevelTick TickTy
 		targetPoint.Z = OwningPawn->GetTransform().GetLocation().Z;
 		AITimer = AITimer + AITimeStep + (rand() % 100) / 250.0f;
 	}
-	if(Cast<AAdder_DodgeBallCharacter>(OwningPawn))
-	if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)->hasBall) {
-		if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)) {
-			Cast<AAdder_DodgeBallCharacter>(OwningPawn)->WindUp();
-		}
-	} else if(targetActor != nullptr) {
-		
+	if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)) {
+		if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)->hasBall) {
+			if (targetActor == nullptr) {
+				targetActor = GetClosestTarget();
+				if (targetActor != nullptr) targetPoint = targetActor->GetActorLocation();
+			}
+	//		if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)) {
+				Cast<AAdder_DodgeBallCharacter>(OwningPawn)->WindUp();
+	//			if (Cast<AAdder_DodgeBallCharacter>(OwningPawn)->throwPower > 0.95f) {
+	//				Cast<AAdder_DodgeBallCharacter>(OwningPawn)->ThrowBall();
+	//				Cast<AAdder_DodgeBallCharacter>(OwningPawn)->hasBall = false;
+	//			}
+	//		}
+		}// else if (targetActor != nullptr) { }
 	}
 	if (FMath::Abs(FVector::Dist(targetPoint, OwningPawn->GetTransform().GetLocation())) > 32) {
 		//OwningPawn->AddMovementInput(targetPoint - OwningPawn->GetTransform().GetLocation(), 1, false);
