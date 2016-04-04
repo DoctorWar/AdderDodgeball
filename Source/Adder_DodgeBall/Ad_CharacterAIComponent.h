@@ -58,6 +58,6 @@ public:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 	//	bool isAI;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
-		bool hasBall;
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+//		bool hasBall;
 };

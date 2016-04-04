@@ -41,6 +41,7 @@ AAdder_DodgeBallCharacter::AAdder_DodgeBallCharacter()
 	isAlive = true;
 	downTime = 0.0f;
 	ballRef = nullptr;
+	hasBall = false;
 }
 
 

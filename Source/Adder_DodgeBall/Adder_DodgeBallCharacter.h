@@ -63,6 +63,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = AI)
 		virtual void ThrowBall();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
+		bool hasBall;
+
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
