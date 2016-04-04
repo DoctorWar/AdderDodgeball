@@ -185,7 +185,7 @@ bool UAd_CharacterAIComponent::IsClosestToTarget(AActor * inTarget)
 			continue;
 		}
 		if (!Cai->isAlive) continue;
-		if (Cai->isAI && Cai->teamNumber == teamNumber) {
+		if (Cai->teamNumber == teamNumber) {//Cai->isAI &&
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Char Dist: %f"), FVector::Dist(GetOwner()->GetActorLocation(), targetPos)));
 			if (FVector::Dist(Cai->GetActorLocation(), targetPos) < actorDist) {
 				return false;
