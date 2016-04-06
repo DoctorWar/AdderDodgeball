@@ -27,7 +27,6 @@ void APowerUpPickUp::OnBeginOverlap(AActor* OtherActor)
 	if (character != NULL && character-> isAlive)
 	{
 		character->currentPowerup = currentPowerup;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
 		Destroy();
 	}
 }

@@ -69,7 +69,7 @@ void AMyBallClass::SetPowerUp(PowerUp::PowerUpType thisPowerUp)
 	switch (currentPowerup)
 	{
 	case PowerUp::PowerUpType::strength:
-		Strength = 5;
+		Strength = 2;
 		break;
 	case PowerUp::PowerUpType::precision:
 		Pricision = 0;

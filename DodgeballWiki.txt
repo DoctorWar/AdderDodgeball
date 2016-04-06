@@ -1,39 +1,18 @@
-Feb 22 To Do:
+April 4th To Do:
 
 Mechanics:
-Ball[Passing, AI:Throwing, Catching, Hitting]
-Character[Switching Control]
-AI[Player’s Teammates]
-Powerups[Spawning, Pickups, Player/Character Effects]
+Ball[Passing, Catching]
+Can't kill teammates
 Obstacles(Crate, Pitfall, Fire)
 
 Game Rules: 
-Player KO[AI must be able to hit player with the ball]
-Ball[1-3 at a time, each ball must be able to hit opposing team when thrown] 
 Player Count[Adjustable team size/AI teammates] 
 Camera [Camera? Reacts to scene] 
 
-UI: 
-In Game[Score?, Paused(Resume, Quit)] 
-Menu[Buttons need to function]
-
-Input[Controllers(simulate with keyboard?)]
-
-Audio: 
-BGM[Menu Theme, Gameplay Theme, Victory/Loss Theme] 
-SFX[Button Click, Hit, Throw, walking/running]
-
 Levels: 
-Game Over Screen 
 Stats screen(High scores/etc, pulled from data file or network)
 
-Program flow:
-Main Menu -> Play -> Game Screen -> Team KO -> Game Over Screen -> Return -> Main Menu 
-
 ___________________________________
-Current Levels in use: Menu[Blueprints/GamePad_Menu.umap]
-AI Tests[Maps/AITestingMap.umap]
-Gameplay[Maps/Arena.umap]
 
 Tasks Selected: 
 Gerrard Haggett [ Character ] 
@@ -45,4 +24,4 @@ Corey Tibando [ AI ]
 Luc Vo [ Ball Collision ]
 
 Updated since last sprint:
-Ball, Character, AI, Ragdoll, KO, UI, Menu, Input, Game Scene
+A lot
