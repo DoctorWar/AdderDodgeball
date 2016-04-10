@@ -19,6 +19,12 @@ public:
 	int32 Score;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Save)
+	int32 GamesWon;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Save)
+	int32 GamesLost;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Save)
 	FString	SaveSlotName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Save)

@@ -10,5 +10,7 @@ UMySaveGame::UMySaveGame()
 	SaveSlotName = TEXT("SaveSlot");
 	UserIndex = 0;
 	Score = 0;
+	GamesWon = 0;
+	GamesLost = 0;
 }
 
