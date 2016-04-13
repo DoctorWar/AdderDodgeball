@@ -39,7 +39,7 @@ void ACamera::BeginPlay()
 	
 	APlayerController* OurPlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	DefaultPoint = this->GetActorLocation();
-	UE_LOG(LogTemp, Error, TEXT("TimeTimeTime %d, %d, %d"),DefaultPoint.X,DefaultPoint.Y,DefaultPoint.Z);
+	//UE_LOG(LogTemp, Error, TEXT("TimeTimeTime %d, %d, %d"),DefaultPoint.X,DefaultPoint.Y,DefaultPoint.Z);
 	OurPlayerController->SetViewTarget(this);
 }
 
