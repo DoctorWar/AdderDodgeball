@@ -54,7 +54,7 @@ void AMyBallClass::homingBallfunc()
 		}
 	}
 	
-	this->SetActorLocation(currentLocation + (direction * 15), false, NULL, ETeleportType::TeleportPhysics);
+	this->SetActorLocation(currentLocation + (direction * 20), false, NULL, ETeleportType::TeleportPhysics);
 	if (homingDuration > 1000)
 		ResetStats();
 }
